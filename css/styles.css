@@ -258,6 +258,39 @@ em, .italic { font-style: italic; color: var(--blush-deep); }
   pointer-events: none;
   z-index: 0;
 }
+
+/* Hero background image carousel */
+.hero-bg-carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-bg-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.hero-bg-slide.active { opacity: 1; }
+/* Fade the carousel into the cream background so the copy on the left stays fully legible */
+.hero-bg-carousel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--cream) 0%,
+    var(--cream) 30%,
+    rgba(247, 241, 234, 0.85) 45%,
+    rgba(247, 241, 234, 0.35) 65%,
+    rgba(247, 241, 234, 0.1) 100%
+  );
+}
+
 .hero-inner { position: relative; z-index: 1; }
 .hero h1 {
   max-width: 14ch;

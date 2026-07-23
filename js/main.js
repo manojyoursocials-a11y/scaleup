@@ -33,6 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('in'));
   }
 
+  /* ---------- Hero background carousel ---------- */
+  const heroSlides = document.querySelectorAll('.hero-bg-slide');
+  if (heroSlides.length > 1) {
+    let heroIndex = 0;
+    setInterval(() => {
+      heroSlides[heroIndex].classList.remove('active');
+      heroIndex = (heroIndex + 1) % heroSlides.length;
+      heroSlides[heroIndex].classList.add('active');
+    }, 4000);
+  }
+
   /* ---------- Testimonial scroller controls ---------- */
   const track = document.querySelector('.testimonial-track');
   const prev = document.querySelector('.t-prev');
