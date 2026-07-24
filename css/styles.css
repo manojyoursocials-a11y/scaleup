@@ -365,7 +365,7 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
 }
 .about-preview .image-badge {
   position: absolute;
-  bottom: 1.5rem;
+  top: 1.5rem;
   left: 1.5rem;
   background: var(--cream);
   padding: .8rem 1.2rem;
@@ -374,6 +374,7 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
   font-size: .72rem;
   letter-spacing: .12em;
   text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(26, 22, 20, 0.12);
 }
 @media (max-width: 860px) {
   .about-preview { grid-template-columns: 1fr; }
@@ -981,4 +982,10 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
 .reveal.in {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ---------- Disabled links (client preview mode: homepage only) ---------- */
+.disabled-link {
+  cursor: default;
+  pointer-events: none;
 }
