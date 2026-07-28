@@ -984,6 +984,7 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
   transform: translateY(0);
 }
 
+
 /* WhatsApp Floating Button */
 .whatsapp-float {
   position: fixed;
