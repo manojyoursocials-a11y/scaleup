@@ -984,8 +984,3 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
   transform: translateY(0);
 }
 
-/* ---------- Disabled links (client preview mode: homepage only) ---------- */
-.disabled-link {
-  cursor: default;
-  pointer-events: none;
-}
