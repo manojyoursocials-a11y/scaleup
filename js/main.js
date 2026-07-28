@@ -82,20 +82,40 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const data = new FormData(form);
       const name = data.get('name');
+      const phone = data.get('phone');
+      const email = data.get('email');
       const service = data.get('service');
       const date = data.get('date');
       const time = data.get('time');
+      const notes = data.get('notes');
 
       // Build a WhatsApp pre-filled message — sends booking to salon.
       const msg = `Hi Scaleup Salon, I'd like to book an appointment.%0A%0AName: ${encodeURIComponent(name)}%0AService: ${encodeURIComponent(service)}%0ADate: ${encodeURIComponent(date)}%0ATime: ${encodeURIComponent(time)}`;
-      const waLink = `https://wa.me/919003158542?text=${msg}`;
+      const waLink = `https://wa.me/918610382952?text=${msg}`;
+
+      // Build a pre-filled email to both salon inboxes.
+      const emailTo = 'scaleup.chennai@gmail.com,yoursocialsofficial@gmail.com';
+      const emailSubject = encodeURIComponent(`New Appointment Booking — ${name}`);
+      const emailBody = encodeURIComponent(
+        `New booking request from the website:\n\n` +
+        `Name: ${name}\n` +
+        `Phone: ${phone}\n` +
+        `Email: ${email || '-'}\n` +
+        `Service: ${service}\n` +
+        `Date: ${date}\n` +
+        `Time: ${time}\n` +
+        `Notes: ${notes || '-'}`
+      );
+      const mailtoLink = `mailto:${emailTo}?subject=${emailSubject}&body=${emailBody}`;
 
       if (success) {
         success.classList.add('show');
-        success.innerHTML = `Thank you, ${name}! Your request has been recorded. <a href="${waLink}" target="_blank" style="color:var(--blush);text-decoration:underline;">Tap here to confirm on WhatsApp →</a>`;
+        success.innerHTML = `Thank you, ${name}! Your request has been recorded. <a href="${waLink}" target="_blank" style="color:var(--blush);text-decoration:underline;">Tap here to confirm on WhatsApp →</a> or <a href="${mailtoLink}" style="color:var(--blush);text-decoration:underline;">send us an email →</a>`;
       }
       form.reset();
-      // Auto-open WhatsApp after a short delay
+      // Open the visitor's email app with the booking pre-filled, addressed to the salon.
+      window.location.href = mailtoLink;
+      // Also open WhatsApp as a fallback confirmation channel.
       setTimeout(() => { window.open(waLink, '_blank'); }, 800);
     });
   }
