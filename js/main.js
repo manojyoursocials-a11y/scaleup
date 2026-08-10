@@ -4,6 +4,33 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- Image extension/case fallback ----------
+     If an image fails to load (e.g. the file is actually .png, .JPG,
+     or .jpeg instead of the .jpg the HTML asks for), automatically
+     try the other common extensions and letter-casings before giving up.
+     This keeps the site working even if uploaded images don't exactly
+     match the filenames/extensions used in the HTML. */
+  function attachImageFallback(img) {
+    const original = img.getAttribute('src');
+    if (!original || !original.startsWith('images/')) return;
+    const lastDot = original.lastIndexOf('.');
+    if (lastDot === -1) return;
+    const base = original.substring(0, lastDot);
+    const candidates = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.webp', '.WEBP']
+      .map(ext => base + ext)
+      .filter(candidate => candidate !== original);
+
+    let i = 0;
+    img.addEventListener('error', function handler() {
+      if (i < candidates.length) {
+        img.src = candidates[i++];
+      } else {
+        img.removeEventListener('error', handler);
+      }
+    });
+  }
+  document.querySelectorAll('img[src^="images/"]').forEach(attachImageFallback);
+
   /* ---------- Mobile nav toggle ---------- */
   const nav = document.querySelector('.nav');
   const navToggle = document.querySelector('.nav-toggle');
