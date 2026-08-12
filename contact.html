@@ -9,6 +9,38 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
+  <script>
+    /* Image extension/case fallback — runs immediately, before any
+       <img> tags are parsed, and listens in the capture phase so it
+       catches load failures no matter how early they happen (image
+       loads can fail before deferred scripts at the bottom of the
+       page even run). If images/foo.jpg 404s, this automatically
+       retries images/foo.JPG, .jpeg, .JPEG, .png, .PNG, .webp, .WEBP
+       — same filename, only the extension changes. */
+    (function () {
+      var tried = new WeakMap();
+      document.addEventListener("error", function (e) {
+        var img = e.target;
+        if (!img || img.tagName !== "IMG") return;
+        var src = img.getAttribute("src") || "";
+        if (!src.startsWith("images/")) return;
+        var lastDot = src.lastIndexOf(".");
+        if (lastDot === -1) return;
+        var base = src.substring(0, lastDot);
+        var state = tried.get(img);
+        if (!state) {
+          var list = [".jpg", ".JPG", ".jpeg", ".JPEG", ".png", ".PNG", ".webp", ".WEBP"]
+            .map(function (ext) { return base + ext; })
+            .filter(function (candidate) { return candidate !== src; });
+          state = { list: list, i: 0 };
+          tried.set(img, state);
+        }
+        if (state.i < state.list.length) {
+          img.src = state.list[state.i++];
+        }
+      }, true); // true = capture phase
+    })();
+  </script>
 </head>
 <body>
 
